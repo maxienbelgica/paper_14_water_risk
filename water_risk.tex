@@ -252,7 +252,7 @@ Current and potential suppliers of these categories/processes/materials are then
 
 \begin{figure}[t]
 \centering
-\includegraphics[ width=.7\textwidth]{plots/framework_v1.pdf}
+\includegraphics[ width=.7\textwidth]{plots/framework_v2.pdf}
 \caption{Our water-risk screening framework.}
 \small
 \smallskip
@@ -425,8 +425,9 @@ In particular, we use an Analytic Hierarchy Process (AHP) approach and its simul
 The Analytic Hierarchy Process (AHP) methodology is broadly used as a preference theory in decision making.
 Of particular relevance for this study is its extensive use in Supply Chain decision making.
 (See, e.g., \citet{Ishizaka:2011} for and an application to supplier selection, and \citet{Momani:2011} for an application to xxx field.)
-AHP uses independent, judgemental, pairwise comparisons among attributes to derive reciprocal comparison matrices.
-Provided that these matrices pass a validity test (i.e., the comparisons made by each individual are internally consistent), a single vector of weights can be computed.
+AHP uses independent, judgemental, pairwise comparisons (made by one or more subject experts) among attributes to derive reciprocal comparison matrices.
+Provided that these matrices pass a validity test (i.e., the comparisons made by each individual are internally consistent), a single vector of weights can be computed from each matrix.
+If more than one expert provides comparisons, the geometric mean of all the weight vectors is used to aggregate all judgements into a single weight vector.
 
 Let $A_k=[a_{kij}]$ be a positive comparison matrix.
 Here, $a_{kij}$ is the judgemental evaluation of expert $k \in \lbrace 1, \dots, N \rbrace$, comparing attributes $i  \in \lbrace 1, \dots, m \rbrace $ and $j  \in \lbrace 1, \dots, m \rbrace$.
@@ -440,16 +441,21 @@ Formally, let $CI_k$ be the consistency index of matrix $A_k$, $CI_k=(\lambda_{k
 A small change in $a_{kij}$ implies small changes in $\lambda_{k,max}$, with a small difference between $\lambda_{k,max}$ and $n_k$ being an adequate measure of consistency. 
 The consistency ratio is defined as $CR_k=CI_k/RI$, with $RI$ the random matrix consistency index, defined as the average value of $CI$ for random matrices using the Saaty scale. 
 A commonly used cutoff point for $CR$ is 0.1.
-Comparison matrices with $CR_k<0.1$ are judged inconsistent, and therefore not used in determining the final weights  \citep{Ishizaka:2011, Saaty:1987}.
-The resulting individual weights are combined into a single indicator by computing the geometric mean.
+Comparison matrices with $CR_k<0.1$ are judged inconsistent, and therefore not used in determining the final weights (via the geometric mean of the individual weight vectors) \citep{Ishizaka:2011, Saaty:1987}.
 
 MCAHP extends the AHP methodology by incorporating Monte Carlo simulation.
 Rather than computing the required weights directly from the comparison matrices, these are used to estimate a continuous distribution for each pairwise comparison.
+In this view, the pairwise comparisons $a_ij$ are random variables and the associated expert judgements $a_kij$, realizations of said variables.
+To estimate the probability information of $a_ij$, we assume that the underlying distribution function is equal for every expert. 
+To determine the distribution fit for each pairwise comparison, we extend the approach used in  \citep{Ataei:2013}.   
+ 
 Simulation runs are then used to generate $M$ comparison matrices.
 The randomly generated, valid, comparison matrices are then used to estimate the final weights.
 MCAHP, thus, addresses the uncertainty inherent in decision makers required to translate 
 subjective judgements into a single point estimate \citep{Ataei:2013}.
 In addition, MCAHP allows for statistical sensitivity analysis of the results \citep{Banuelas:2004, Vaidya:2006}. 
+MCAHP directly addresses the issue of a lack of probabilistic interpretation of the results of AHP. 
+Therefore, using MCAHP allows us to compute a confidence interval for the resulting weights. 
 
 %With MCAHP, Instead of using discrete values for each pairwise comparison, a continuous distribution derived from the multiple expert matrices is used and simulated. 
 %For distributions, other research studies considered for example uniform \citep{Hauser:1996} or triangular distributions \citep{Banuelas:2004}.
@@ -464,18 +470,16 @@ In addition, MCAHP allows for statistical sensitivity analysis of the results \c
 
 \subsubsection{Judgemental Comparisons and Resulting Indeces}
 % THIS NEEDS EXPANDING
-Experts within and outside the company $(N=11)$ were asked to perform the pairwise comparisons for each of the physical and amplifying water risks. 
-Based 
+Experts within and outside the company $(N=11)$ performed the pairwise comparisons for each of the physical and amplifying water risks. 
 Table \ref{tab:responses} details the weights computed from the responses and the resulting consistency ratio for each of the experts' responses. 
+Table \ref{tab:results} shows the weights computed using the AHP and MCAHP approaches.
+For an additional robustness check, we re-run the MCAHP approach following the methodology of \citep{Ataei:2013}, i.e., fitting a triangular distribution to each of the pairwise comparisons. 
+The results are not significantly different. 
 
-
-
-
-
-\begin{table}[t h b]
+\begin{table}[t b h]
 \caption{Resulting indicator weights and consistency ratio for individual experts}
 \centering
-%\resizebox{7cm}{!} {
+\resizebox{15cm}{!} {
 \begin{tabular} {c c c c c c c c c c c c} \\ 
 \toprule
 Expert: & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
@@ -490,7 +494,8 @@ I	& 16.2\% & 4.3\% & 4.5\% & 9.4\% & 3.3\% & 11.4\% & 5.7\% & 12.4\% & 16.3\% & 
 CR	& 0.10 & 0.08 & 0.10 & 0.37 & 0.05 & 0.52 & 0.09 & 0.07 & 0.09 & 0.03 & 0.11\\
 \bottomrule
 \end{tabular}
-%}
+\label{tab:responses}
+}
 \end{table} 
 
 
@@ -498,25 +503,26 @@ Based on the adapted simulation MCAHP approach, we fit the distributions, derive
  For the K-S test, the critical value of $D_n$ with a high significance level of $\alpha=0.2$ was $0.307$.
 
 
-\begin{table}
+\begin{table}[t b h]
 \caption{Resulting indicator weights}
 \centering
 %\resizebox{7cm}{!} {
-\begin{tabular} {p{4cm} l l} \\ 
+\begin{tabular} {p{4cm} l l l l} \\ 
 \toprule
-	 &	\multicolumn{2}{l}{Adapted MCAHP approach} \\
+	 &	\multicolumn{2}{c}{AHP} & \multicolumn{2}{c}{MCAHP} \\
+Indicator	& Mean 		& StdDev	& Mean		& StdDev\\
 \midrule 	
-Number of consistent matrices (mean/median) & \multicolumn{2}{c}{1095.33/1100.5}\\
-Consistency index							& \multicolumn{2}{c}{0.06}\\
-Indicator									& Mean & StdDev\\
-BWS											& 44.28 \% 	& 5.13\% \\
-SV											& 22.97\% & 4.72\%\\
-DS	& 11.64\% & 3.68\%\\
-EDR	& 8.30\%  & 2.91\%\\	
-GR 	& 6.25\%  & 2.07\%\\
-I	& 6.56\%  & 2.23\%\\
+BWS			& 44.90 \% 	& 8.0 \%	& 44.28\% 	& 5.13\% \\
+SV			& 22.0 \% 	& 8.5 \% 	& 22.97\% 	& 4.72\%\\
+DS			& 11.1 \% 	& 6.8 \% 	& 11.64\% 	& 3.68\%\\
+EDR			& 8.2 \% 	& 6.4 \% 	& 8.30\%  	& 2.91\%\\	
+GR 			& 7.2 \% 	& 3.5 \%	& 6.25\%  	& 2.07\%\\
+I			& 6.6 \% 	& 4.8 \% 	& 6.56\%  	& 2.23\%\\
+\multicolumn{3}{c}{Number of consistent matrices (mean/median)}&  \multicolumn{2}{c}{1095.33/1100.5}\\
+Consistency index			&& 	& \multicolumn{2}{c}{0.06}\\
 \bottomrule
 \end{tabular}
+\label{tab:results}
 %}
 \end{table} 
 
@@ -524,7 +530,7 @@ As mentioned, also the geometric mean and the simulation approach of \citep{Atae
 For none, the order of the indicators changed and the adapted approach showed the most confident results while enabling the consideration of uncertainty.
 In conclusion, the three highest weighted indicators BWS, SV, and DS make up $78.89\%$ of the weights. 
 The amplifying indicators--GR, I, and EDR--account for $21.11\%$  (at a country-level). 
-These weights were vetted afterwards with a selected group of internal and external experts.
+These weights were vetted afterwards with a selected group of internal and external experts.
 
 \section{Application and Results}
 \subsection{Data}
