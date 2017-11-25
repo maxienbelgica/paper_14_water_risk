@@ -420,7 +420,7 @@ After introducing the above indicators we conducted statistical analysis through
 \subsection{Constructing a water-risk index}
 \subsubsection{Analytic Hierarchy Process and Monte Carlo Analytic Hierarchy Process}
 In this section we use Multiple Attribute Decision Making (MADM) methodologies to construct a single water-risk index based upon the physical and amplifying water risks presented in Section \ref{sec:metrics}.
-In particular, we use a Monte Carlo Analytic Hierarchy Process (MCAHP, a simulation-based extension of Analytic Hierarchy Process, AHP) approach to derive weights for each of the individual metrics using survey data from expert judges.
+In particular, we use an Analytic Hierarchy Process (AHP) approach and its simulation-based extension, Monte Carlo Analytic Hierarchy Process (MCAHP) to derive weights for each of the individual metrics from survey data obtained from expert judges.
 
 The Analytic Hierarchy Process (AHP) methodology is broadly used as a preference theory in decision making.
 Of particular relevance for this study is its extensive use in Supply Chain decision making.
@@ -429,20 +429,24 @@ AHP uses independent, judgemental, pairwise comparisons among attributes to deri
 Provided that these matrices pass a validity test (i.e., the comparisons made by each individual are internally consistent), a single vector of weights can be computed.
 
 Let $A_k=[a_{kij}]$ be a positive comparison matrix.
-Here, $a_{kij}$ is the judgemental evaluation of expert $k \in \lbrace 1 \dots N \rbrace$, comparing attributes $i  \in \lbrace 1 \dots m \rbrace $ and $j  \in \lbrace 1 \dots m \rbrace$.
+Here, $a_{kij}$ is the judgemental evaluation of expert $k \in \lbrace 1, \dots, N \rbrace$, comparing attributes $i  \in \lbrace 1, \dots, m \rbrace $ and $j  \in \lbrace 1, \dots, m \rbrace$.
 Following \citet{Saaty:1987}, the elements of the matrix correspond to a discrete Saaty scale; $a_{kij}=\lbrace 1,\dots,9\rbrace$, where $1$ indicates no difference on the importance of attribute $i$ over $j$, and $9$ indicates the highest possible order of affirmation for the importance of $i$ over $j$.
-The reciprocal elements of a comparison matrix are computed such that $a_{kji}=\lbrace \frac{1}{9},\frac{1}{8},\dots,\frac{1}{1} \rbrace$.
+The reciprocal elements of a comparison matrix are computed such that $a_{kji}=\lbrace 1/9, 1/8,  \dots, 1/1 \rbrace$.
 
-The entries of $A_k$ need not be transitive. 
-I.e., for a given expert $k$; $a_{k12}>1$ and $a_{k23}>1$ does not imply $a_{k13}>1$.
-Thus, we calculate the consistency index $(CI)$ and ratio $(CR)$ to quantify the internal validity of a matrix.
-Formally, $CI=(\lambda_{max}-n)/(n-1)$, where $\lambda$ xxxx. 
-A small change in $a_{kij}$ implies small changes in $\lambda_{max}$, with a small difference between $\lambda_{max}$ and $n$ being an adequate measure of consistency. 
-Moreover, the consistency ratio is defined as $CR=CI/RI$, with $RI$ the random matrix consistency index, defined as the average value of $CI$ for random matrices using the Saaty scale. 
-When $CR$ is less than or equal to 0.1, the comparison matrix is considered to have an acceptable consistency \citep{Ishizaka:2011, Saaty:1987}.
+The entries of $A_k$ need not be transitive.
+Thus, for a given expert $k$, comparisons $a_{k12}>1$ and $a_{k23}>1$ do not imply $a_{k13}>1$.
+To evaluate the validity of a comparison matrix, we compute a consistency index $(CI)$ and a consistency ratio $(CR)$.
+Formally, let $CI_k$ be the consistency index of matrix $A_k$, $CI_k=(\lambda_{k,max}-n_k)/(n_k-1)$, where $\lambda$ xxxx. 
+A small change in $a_{kij}$ implies small changes in $\lambda_{k,max}$, with a small difference between $\lambda_{k,max}$ and $n_k$ being an adequate measure of consistency. 
+The consistency ratio is defined as $CR_k=CI_k/RI$, with $RI$ the random matrix consistency index, defined as the average value of $CI$ for random matrices using the Saaty scale. 
+A commonly used cutoff point for $CR$ is 0.1.
+Comparison matrices with $CR_k<0.1$ are judged inconsistent, and therefore not used in determining the final weights  \citep{Ishizaka:2011, Saaty:1987}.
+The resulting individual weights are combined into a single indicator by computing the geometric mean.
 
-MCAHP incorporates Monte Carlo simulation into the AHP methodology.
-Rather than computing the required weights from the comparison matrices, these are used to estimate a continuous distribution for each pairwise comparison.
+MCAHP extends the AHP methodology by incorporating Monte Carlo simulation.
+Rather than computing the required weights directly from the comparison matrices, these are used to estimate a continuous distribution for each pairwise comparison.
+Simulation runs are then used to generate $M$ comparison matrices.
+The randomly generated, valid, comparison matrices are then used to estimate the final weights.
 MCAHP, thus, addresses the uncertainty inherent in decision makers required to translate 
 subjective judgements into a single point estimate \citep{Ataei:2013}.
 In addition, MCAHP allows for statistical sensitivity analysis of the results \citep{Banuelas:2004, Vaidya:2006}. 
@@ -458,7 +462,38 @@ In addition, MCAHP allows for statistical sensitivity analysis of the results \c
 %While this violates the concept of the AHP methodology - also resulting in a wider spread of inconsistencies – we allow for better fit distributions depicting the actual made judgements and not relying solely on the derived distributions of one triangular of all the matrices. The fit of distribution functions for the arrays was found through the Kolmogorov-Smirnov (K-S) test– a Goodness-of-Fit Test (GoF). 
 %The test is most viable due to its applicability on small sample sizes without any restrictions \citep{Romeu:2003, Babu:2006}. For robustness, the MCAHP approach by \citet{Ataei:2013} was also simulated, but the adjusted approach reached a higher number of consistent matrices and a lower average consistency index in all 30 conducted simulation with each 10,000 iterations. 
 
-\subsubsection{Judgemental Comparisons and Resulting Index}
+\subsubsection{Judgemental Comparisons and Resulting Indeces}
+% THIS NEEDS EXPANDING
+Experts within and outside the company $(N=11)$ were asked to perform the pairwise comparisons for each of the physical and amplifying water risks. 
+Based 
+Table \ref{tab:responses} details the weights computed from the responses and the resulting consistency ratio for each of the experts' responses. 
+
+
+
+
+
+\begin{table}[t h b]
+\caption{Resulting indicator weights and consistency ratio for individual experts}
+\centering
+%\resizebox{7cm}{!} {
+\begin{tabular} {c c c c c c c c c c c c} \\ 
+\toprule
+Expert: & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+\midrule 	
+BWS	& 39.6\% & 47.9\% & 49.3\% & 43.5\% & 44.8\% & 32.0\% & 51.0\% & 45.7\% & 29.3\% & 29.9\% & 45.0\% \\
+SV	& 18.8\% & 18.9\% & 24.6\% & 22.2\% & 22.6\% & 22.8\% & 20.24\% & 24.8\% & 6.6\% & 42.8\% & 17.8\% \\
+DS	& 4.9\% & 13.6\% & 14.9\% & 9.9\% & 12.7\% & 2.7\% & 14.6\% & 6.8\% & 21.5\% & 6.6\% & 24.7\%\\
+EDR	& 6.9\% & 4.0\% & 3.3\% & 9.6\% & 12.0\% & 23.0\% & 3.8\% & 6.7\% & 18.1\% & 10.4\% & 3.5\%\\
+GR	& 13.5\% & 11.3\% & 3.5\% & 5.5\% & 4.7\% & 8.2\% & 4.6\% & 3.6\% & 8.3\% & 5.7\% & 2.5\% \\
+I	& 16.2\% & 4.3\% & 4.5\% & 9.4\% & 3.3\% & 11.4\% & 5.7\% & 12.4\% & 16.3\% & 5.7\% & 6.4\%\\
+\midrule 	
+CR	& 0.10 & 0.08 & 0.10 & 0.37 & 0.05 & 0.52 & 0.09 & 0.07 & 0.09 & 0.03 & 0.11\\
+\bottomrule
+\end{tabular}
+%}
+\end{table} 
+
+
 Based on the adapted simulation MCAHP approach, we fit the distributions, derive the K-S test, and run the Monte Carlo Simulations. 
  For the K-S test, the critical value of $D_n$ with a high significance level of $\alpha=0.2$ was $0.307$.
 
